@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    kotlin("plugin.serialization") version "2.0.20"
+
 }
 
 android {
@@ -50,6 +53,13 @@ android {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-scalars
+    implementation(libs.ktor.client.okhttp)
+// https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-jackson
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+
     implementation(libs.koin.android)
     implementation (libs.koin.androidx.compose)
 // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-datetime

@@ -10,4 +10,8 @@
     <string name="search_text">Найти</string>
     <string name="switch_text">поменять местами</string>
     <string name="close_text">Закрыть</string>
+    <string name="suburban_text">электричка</string>
+    <string name="train_text">поезд</string>
+    <string name="plane_text">самолет</string>
+    <string name="bus_text">автобус</string>
 </resources>

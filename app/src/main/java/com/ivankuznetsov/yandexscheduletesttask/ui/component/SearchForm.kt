@@ -19,7 +19,13 @@ fun SearchForm(modifier: Modifier) {
     var startPoint by rememberSaveable {
         mutableStateOf("")
     }
+    var startPointCode by rememberSaveable {
+        mutableStateOf("")
+    }
     var destination by rememberSaveable {
+        mutableStateOf("")
+    }
+    var destinationCode by rememberSaveable {
         mutableStateOf("")
     }
     var currentDate by rememberSaveable {
@@ -28,6 +34,9 @@ fun SearchForm(modifier: Modifier) {
     var currentContent by rememberSaveable {
         mutableStateOf(SearchFormContentType.CONTENT)
     }
+    var currentTransport by rememberSaveable {
+        mutableStateOf("")
+    }
     Column {
         when(currentContent){
             SearchFormContentType.CONTENT -> {
@@ -35,6 +44,7 @@ fun SearchForm(modifier: Modifier) {
                     startPoint = startPoint.ifBlank { stringResource(id = R.string.start_point_text) },
                     destination = destination.ifBlank { stringResource(id = R.string.destination_point_text) },
                     date = currentDate,
+                    transport = currentTransport,
                     onStartPointClicked = {
                         currentContent = SearchFormContentType.START_DIALOG
                     },
@@ -47,26 +57,30 @@ fun SearchForm(modifier: Modifier) {
                         }
                     },
                     onDateSelected = {currentDate = it},
+                    onTransportSelected = {currentTransport = it},
                     onSearchClicked = {}
                     )
             }
             SearchFormContentType.START_DIALOG -> {
-                SearchDialog(modifier = Modifier, startValue = startPoint) {
-                    startPoint = it
+                SearchDialog(modifier = Modifier, startValue = startPoint, onClose = {
+                    startPoint = it?.shortName ?: ""
+                    startPointCode = it?.code ?: ""
                     currentContent = SearchFormContentType.CONTENT
-                }
+                })
             }
             SearchFormContentType.DESTINATION_DIALOG -> {
-                SearchDialog(modifier = Modifier, startValue = destination) {
-                    destination = it
-                    currentContent = SearchFormContentType.CONTENT
-                }
+                SearchDialog(modifier = Modifier, startValue = destination,
+                    {
+                        destination = it?.shortName ?: ""
+                        destinationCode = it?.code ?: ""
+                        currentContent = SearchFormContentType.CONTENT
+                    })
             }
         }
     }
 }
 
-@Preview
+@Preview(widthDp = 320, heightDp = 640)
 @Composable
 fun SearchFormPreview(modifier: Modifier = Modifier) {
     SearchForm(modifier = modifier)

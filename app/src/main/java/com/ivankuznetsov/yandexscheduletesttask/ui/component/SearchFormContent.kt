@@ -1,5 +1,6 @@
 package com.ivankuznetsov.yandexscheduletesttask.ui.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +18,12 @@ fun SearchFormContent(
     startPoint: String,
     destination: String,
     date:LocalDate?,
+    transport: String,
     onStartPointClicked: () -> Unit,
     onDestinationPointClicked:()->Unit,
     onSwitchPointClicked:()->Unit,
     onDateSelected:(LocalDate?)->Unit,
+    onTransportSelected:(String)->Unit,
     onSearchClicked:()->Unit
 ) {
     DestinationsWidget(
@@ -33,8 +36,8 @@ fun SearchFormContent(
     DateWidget(modifier = Modifier, date){
         onDateSelected(it)
     }
-    TransportTypeWidget(modifier = Modifier)
-    Button(onClick = onSearchClicked) {
+    TransportTypeWidget(modifier = Modifier,transport){onTransportSelected(it)}
+    Button(modifier = Modifier.fillMaxWidth(),onClick = onSearchClicked) {
         Text(text = stringResource(R.string.search_text))
     }
 }

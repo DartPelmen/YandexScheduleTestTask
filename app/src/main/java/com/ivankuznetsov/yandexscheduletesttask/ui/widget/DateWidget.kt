@@ -1,13 +1,16 @@
 package com.ivankuznetsov.yandexscheduletesttask.ui.widget
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,65 +29,53 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateWidget(
     modifier: Modifier,
     currentTravelDate: LocalDate?,
     onTravelDateSelected: (LocalDate?) -> Unit
 ) {
+
     var needToShowDatePicker by rememberSaveable {
         mutableStateOf(false)
     }
     val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val tomorrow = today.plus(DatePeriod(0, 0, 1))
-    Row {
-        if (needToShowDatePicker) {
-            DatePickerModalInput(onDateSelected = {
-                val date = it?.let { it1 ->
-                    Instant.fromEpochMilliseconds(it1)
-                        .toLocalDateTime(TimeZone.currentSystemDefault()).date
-                }
-                onTravelDateSelected(date)
-            }) {
-                needToShowDatePicker = false
+    if (needToShowDatePicker) {
+        DatePickerModalInput(onDateSelected = {
+            val date = it?.let { it1 ->
+                Instant.fromEpochMilliseconds(it1)
+                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
             }
+            onTravelDateSelected(date)
+        }) {
+            needToShowDatePicker = false
         }
-        Button(
-            modifier = Modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = (if (currentTravelDate == today) Color.Green else Color.Unspecified)
-            ),
-            onClick = {
-                onTravelDateSelected(today)
-            }) {
+
+    }
+    SingleChoiceSegmentedButtonRow {
+        SegmentedButton(
+            selected = currentTravelDate == today,
+            onClick = { onTravelDateSelected(today) },
+            shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3)
+        ) {
             Text(text = stringResource(R.string.today_text))
         }
-        Button(
-            modifier = Modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = (if (currentTravelDate == tomorrow) Color.Green else Color.Unspecified)
-            ),
-            onClick = {
-                onTravelDateSelected(
-                    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.plus(
-                        DatePeriod(0, 0, 1)
-                    )
-                )
-
-            }) {
+        SegmentedButton(
+            selected = currentTravelDate == tomorrow,
+            onClick = { onTravelDateSelected(tomorrow) },
+            shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3)
+        ) {
             Text(text = stringResource(R.string.tomorrow_text))
         }
-        Button(
-            modifier = Modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = (if (currentTravelDate != null &&
+        SegmentedButton(
+            selected = currentTravelDate != null &&
                     currentTravelDate != today &&
-                    currentTravelDate != tomorrow
-                ) Color.Green else Color.Unspecified)
-            ),
-            onClick = {
-                needToShowDatePicker = true
-            }) {
+                    currentTravelDate != tomorrow,
+            onClick = { needToShowDatePicker = true },
+            shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3)
+        ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = stringResource(R.string.date_text))
                 Icon(
