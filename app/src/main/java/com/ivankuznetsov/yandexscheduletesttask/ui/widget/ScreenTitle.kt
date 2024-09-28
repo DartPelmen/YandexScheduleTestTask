@@ -1,4 +1,4 @@
-package com.ivankuznetsov.yandexscheduletesttask.ui.component
+package com.ivankuznetsov.yandexscheduletesttask.ui.widget
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

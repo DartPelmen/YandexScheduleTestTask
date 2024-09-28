@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.koin.android)
+    implementation (libs.koin.androidx.compose)
+// https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-datetime
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

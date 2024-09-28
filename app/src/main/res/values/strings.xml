@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">YandexScheduleTestTask</string>
     <string name="screeen_title">Расписание пригородного и международного транспорта</string>
+    <string name="start_point_text">Откуда</string>
+    <string name="destination_point_text">Куда</string>
+    <string name="today_text">Сегодня</string>
+    <string name="tomorrow_text">Завтра</string>
+    <string name="date_text">Дата</string>
+    <string name="any_text">Любой</string>
+    <string name="search_text">Найти</string>
+    <string name="switch_text">поменять местами</string>
+    <string name="close_text">Закрыть</string>
 </resources>
